@@ -17,6 +17,8 @@ public class InitialState extends State {
 
     private static Env initialEnv(Env E) {
         // TODO
-        return null;
+        // return the empty Env itself?
+        return E.clone();
+        //return null;
     }
 }

@@ -8,6 +8,7 @@ public class DefaultTypeEnv extends TypeEnv {
 
     public DefaultTypeEnv() {
         // TODO
+        E = TypeEnv.empty;
     }
 
     @Override

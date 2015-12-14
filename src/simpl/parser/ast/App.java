@@ -33,6 +33,17 @@ public class App extends BinaryExpr {
     @Override
     public Value eval(State s) throws RuntimeError {
         // TODO
-        return null;
+        // according to the rule E-App,
+        // first evaluate the function,
+        // then evaluate the parameter, using the original state.
+        // then evaluate the expression in fun, using a new Env.
+        FunValue fun = (FunValue)(l.eval(s));
+        Value param = r.eval(s);
+        //System.out.println(fun.toString());
+        //System.out.println(param.toString());
+        State newState = State.of(new Env(fun.E,fun.x,param),s.M,s.p);
+        Value result = fun.e.eval(newState);
+        return result;
+        //return null;
     }
 }

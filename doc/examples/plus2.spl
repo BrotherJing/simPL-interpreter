@@ -1,0 +1,4 @@
+let add = fn x => fn y => fn z => x * y / z
+in  add 6 2 3
+end
+(* ==> 4 *)

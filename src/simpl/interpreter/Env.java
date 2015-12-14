@@ -32,11 +32,18 @@ public class Env {
 
     public Value get(Symbol y) {
         // TODO
-        return null;
+        // if y==x, return v, else find the value in E
+        if(y.toString().equals(x.toString())){
+            return v;
+        }
+        return E.get(y);
+        //return null;
     }
 
     public Env clone() {
         // TODO
-        return null;
+        // clone a new Env same as this
+        return new Env(E,x,v);
+        //return null;
     }
 }

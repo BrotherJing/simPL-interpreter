@@ -29,6 +29,9 @@ public class Neg extends UnaryExpr {
     @Override
     public Value eval(State s) throws RuntimeError {
         // TODO
-        return null;
+        // according to E-ADD
+        // assume that l and r both evaluate to IntValue, then return the sum of the two IntValues
+        Value v = e.eval(s);
+        return new IntValue(-((IntValue)v).n);
     }
 }

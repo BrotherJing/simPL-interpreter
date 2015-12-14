@@ -35,6 +35,8 @@ public class Fn extends Expr {
     @Override
     public Value eval(State s) throws RuntimeError {
         // TODO
-        return null;
+        // according to E-Fn, we just need to return a FunValue with the original Env
+        return new FunValue(s.E,x,e);
+        //return null;
     }
 }

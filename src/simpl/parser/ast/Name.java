@@ -31,6 +31,7 @@ public class Name extends Expr {
     @Override
     public Value eval(State s) throws RuntimeError {
         // TODO
-        return null;
+        return s.E.get(x);
+        //return null;
     }
 }
