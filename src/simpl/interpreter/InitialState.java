@@ -8,6 +8,7 @@ import simpl.interpreter.lib.snd;
 import simpl.interpreter.pcf.iszero;
 import simpl.interpreter.pcf.pred;
 import simpl.interpreter.pcf.succ;
+import simpl.parser.Symbol;
 
 public class InitialState extends State {
 
@@ -17,8 +18,22 @@ public class InitialState extends State {
 
     private static Env initialEnv(Env E) {
         // TODO
-        // return the empty Env itself?
-        return E.clone();
+        return 
+            new Env(
+            new Env(
+            new Env(
+            new Env(
+            new Env(
+            new Env(
+            new Env(E,Symbol.symbol("fst"),new fst()),
+            Symbol.symbol("snd"),new snd()),
+            Symbol.symbol("hd"),new hd()),
+            Symbol.symbol("tl"),new tl()),
+            Symbol.symbol("iszero"),new iszero()),
+            Symbol.symbol("pred"),new pred()),
+            Symbol.symbol("succ"),new succ())
+            ;
+        //return E.clone();
         //return null;
     }
 }

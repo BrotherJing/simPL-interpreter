@@ -32,6 +32,11 @@ public class Loop extends Expr {
     @Override
     public Value eval(State s) throws RuntimeError {
         // TODO
-        return null;
+        BoolValue v1 = (BoolValue)e1.eval(s);
+        if(v1.b){
+            return new Seq(e2,this).eval(s);
+        }else{
+            return Value.UNIT;
+        }
     }
 }

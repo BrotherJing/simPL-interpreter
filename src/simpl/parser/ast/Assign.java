@@ -30,6 +30,10 @@ public class Assign extends BinaryExpr {
     @Override
     public Value eval(State s) throws RuntimeError {
         // TODO
-        return null;
+        RefValue v1 = (RefValue)(l.eval(s));
+        Value v2 = r.eval(s);
+        s.M.put(v1.p, v2);
+        return Value.UNIT;
+        //return null;
     }
 }

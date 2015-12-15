@@ -31,7 +31,11 @@ public class Name extends Expr {
     @Override
     public Value eval(State s) throws RuntimeError {
         // TODO
-        return s.E.get(x);
+        Value v = s.E.get(x);
+        if(v instanceof RecValue){
+            return new Rec(x,((RecValue)v).e).eval(State.of(((RecValue)v).E, s.M, s.p));
+        }
+        return v;
         //return null;
     }
 }

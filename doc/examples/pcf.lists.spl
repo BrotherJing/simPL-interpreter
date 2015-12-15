@@ -25,7 +25,7 @@ in
 				   else
 				     m n (tl ns)
 	    in
-	      member 4 (cons 1 (cons 2 (cons 3 (cons 4 (cons 5 nil')))))
+	      member 6 (cons 1 (cons 2 (cons 3 (cons 4 (cons 5 nil')))))
 	    end
 	  end
 	end

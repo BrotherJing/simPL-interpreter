@@ -17,6 +17,9 @@ public class ConsValue extends Value {
     @Override
     public boolean equals(Object other) {
         // TODO
+        if(other instanceof NilValue){
+            return false;
+        }
         return false;
     }
 }

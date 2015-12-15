@@ -22,6 +22,10 @@ public class Env {
         public Env clone() {
             return this;
         }
+        
+        public String toString(){
+            return "";
+        }
     };
 
     public Env(Env E, Symbol x, Value v) {
@@ -45,5 +49,11 @@ public class Env {
         // clone a new Env same as this
         return new Env(E,x,v);
         //return null;
+    }
+    
+    public String toString(){
+        String str = x.toString()+":"+v.toString()+"\n";
+        str += E.toString();
+        return str;
     }
 }

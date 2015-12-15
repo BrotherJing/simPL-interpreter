@@ -33,14 +33,22 @@ public class App extends BinaryExpr {
     @Override
     public Value eval(State s) throws RuntimeError {
         // TODO
+        Value v = l.eval(s);
+        FunValue fun = (FunValue)v;
+        /*if(v instanceof RecValue){
+            fun = (FunValue)((RecValue)v).e.eval(State.of(new Env(((RecValue) v).E,((RecValue) v).x,(RecValue) v), s.M, s.p));
+            //System.out.println(fun.E.toString());
+            //System.out.println(fun.toString());
+        }else{
+            fun = (FunValue)v;
+        }*/
+
         // according to the rule E-App,
         // first evaluate the function,
         // then evaluate the parameter, using the original state.
         // then evaluate the expression in fun, using a new Env.
-        FunValue fun = (FunValue)(l.eval(s));
+        
         Value param = r.eval(s);
-        //System.out.println(fun.toString());
-        //System.out.println(param.toString());
         State newState = State.of(new Env(fun.E,fun.x,param),s.M,s.p);
         Value result = fun.e.eval(newState);
         return result;
