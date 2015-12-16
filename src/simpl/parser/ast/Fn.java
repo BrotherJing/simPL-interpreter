@@ -29,7 +29,17 @@ public class Fn extends Expr {
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
         // TODO
-        return null;
+        //TypeResult tr2 = e.typecheck(TypeEnv.of(E, x, t))
+        //G[x:t]|-e:t2
+        System.out.println("type check in Fn");
+        TypeVar a = new TypeVar(false);//x:a
+        TypeResult tr2 = e.typecheck(TypeEnv.of(E, x, a));//u==>e:t
+        System.out.println(tr2.t);
+        System.out.println(tr2.s);
+        Type newType = tr2.s.apply(a);
+        System.out.println("end check in Fn");
+        return TypeResult.of(tr2.s,new ArrowType(newType,tr2.t));
+        //return null;
     }
 
     @Override

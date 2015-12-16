@@ -1,5 +1,7 @@
 package simpl.typing;
 
+import simpl.interpreter.PairValue;
+
 public final class PairType extends Type {
 
     public Type t1, t2;
@@ -18,7 +20,13 @@ public final class PairType extends Type {
     @Override
     public Substitution unify(Type t) throws TypeError {
         // TODO
-        return null;
+        if(t instanceof TypeVar){
+            return t.unify(this);
+        }if(t instanceof PairType){
+            return t1.unify(((PairType) t).t1).compose(t2.unify(((PairType) t).t2));
+        }
+        throw new TypeMismatchError();
+        //return null;
     }
 
     @Override
@@ -30,7 +38,10 @@ public final class PairType extends Type {
     @Override
     public Type replace(TypeVar a, Type t) {
         // TODO
-        return null;
+        t1=t1.replace(a,t);
+        t2=t2.replace(a,t);
+        return this;
+        //return null;
     }
 
     public String toString() {

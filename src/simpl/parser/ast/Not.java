@@ -23,7 +23,12 @@ public class Not extends UnaryExpr {
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
         // TODO
-        return null;
+        TypeResult tr = e.typecheck(E);
+        if(tr.t.equals(Type.BOOL)){
+            return TypeResult.of(Type.BOOL);
+        }
+        throw new TypeError("not bool type found");
+        //return null;
     }
 
     @Override

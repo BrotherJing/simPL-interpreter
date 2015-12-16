@@ -22,7 +22,10 @@ public class Pair extends BinaryExpr {
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
         // TODO
-        return null;
+        TypeResult tr1 = l.typecheck(E);
+        TypeResult tr2 = r.typecheck(E);
+        return TypeResult.of(tr1.s.compose(tr2.s),new PairType(tr1.t,tr2.t));
+        //return null;
     }
 
     @Override

@@ -12,6 +12,7 @@ public class TypeVar extends Type {
     public TypeVar(boolean equalityType) {
         this.equalityType = equalityType;
         name = Symbol.symbol("tv" + ++tvcnt);
+        System.out.println("new TypeVar "+name);
     }
 
     @Override
@@ -22,7 +23,8 @@ public class TypeVar extends Type {
     @Override
     public Substitution unify(Type t) throws TypeCircularityError {
         // TODO
-        return null;
+        return Substitution.of(this,t);
+        //return null;
     }
 
     public String toString() {
@@ -32,12 +34,16 @@ public class TypeVar extends Type {
     @Override
     public boolean contains(TypeVar tv) {
         // TODO
-        return false;
+        return name.equals(tv.name);
+        //return false;
     }
 
     @Override
     public Type replace(TypeVar a, Type t) {
         // TODO
-        return null;
+        System.out.println("replace "+a.name+" with "+t+" on "+this+"?");
+        if(name.equals(a.name))return t;
+        else return this;
+        //return null;
     }
 }

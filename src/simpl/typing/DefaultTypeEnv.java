@@ -8,7 +8,17 @@ public class DefaultTypeEnv extends TypeEnv {
 
     public DefaultTypeEnv() {
         // TODO
-        E = TypeEnv.empty;
+        TypeVar tv1 = new TypeVar(false);
+        TypeVar tv2 = new TypeVar(false);
+        E = TypeEnv.of(
+                TypeEnv.of(
+                        TypeEnv.of(
+                                TypeEnv.of(TypeEnv.empty,
+                                        Symbol.symbol("fst"), new ArrowType(new PairType(tv1, tv2), tv1)),
+                                Symbol.symbol("snd"), new ArrowType(new PairType(tv1, tv2), tv2)),
+                        Symbol.symbol("hd"), new ArrowType(new ListType(tv1), tv1)),
+                Symbol.symbol("tl"), new ArrowType(new ListType(tv1), new ListType(tv1))
+        );
     }
 
     @Override

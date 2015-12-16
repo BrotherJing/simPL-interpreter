@@ -27,7 +27,14 @@ public class Let extends Expr {
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
         // TODO
-        return null;
+        System.out.println("type check in Let");
+        TypeResult tr1 = e1.typecheck(E);
+        System.out.println(tr1.t);
+        TypeResult tr2 = e2.typecheck(TypeEnv.of(E, x, tr1.t));
+        System.out.println(tr2.t);
+        System.out.println("end check in Let");
+        return TypeResult.of(tr2.t);
+        //return null;
     }
 
     @Override

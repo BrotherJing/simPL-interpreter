@@ -1,0 +1,4 @@
+let add = fn x => x
+in  add 2
+end
+(* ==> 2 *)

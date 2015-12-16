@@ -8,7 +8,17 @@ public abstract class Substitution {
 
     private static final class Identity extends Substitution {
         public Type apply(Type t) {
+            System.out.print("apply identity on ");
+            if(t==null)
+                System.out.println("what the fuck?");
+            else
+                System.out.println(t);
             return t;
+        }
+
+        @Override
+        public String toString() {
+            return "identity";
         }
     }
 
@@ -21,8 +31,18 @@ public abstract class Substitution {
             this.t = t;
         }
 
-        public Type apply(Type b) {
+        public Type apply(Type b) {//apply on type scheme b? replace a with t?
+            System.out.print("replace "+a+" with "+t+" on ");
+            if(b==null)
+                System.out.println("what the fuck?");
+            else
+                System.out.println(b);
             return b.replace(a, t);
+        }
+
+        @Override
+        public String toString() {
+            return "replace "+a+" with "+t;
         }
     }
 
@@ -35,17 +55,23 @@ public abstract class Substitution {
         }
 
         public Type apply(Type t) {
+            //System.out.println("apply on "+t.toString());
             return f.apply(g.apply(t));
+        }
+
+        @Override
+        public String toString() {
+            return f.toString()+'\n'+g.toString();
         }
     }
 
     public static final Substitution IDENTITY = new Identity();
 
-    public static Substitution of(TypeVar a, Type t) {
+    public static Substitution of(TypeVar a, Type t) {//Substitution.of(a,t), replace a with t
         return new Replace(a, t);
     }
 
-    public Substitution compose(Substitution inner) {
+    public Substitution compose(Substitution inner) {//xx.compose(inner), xx.apply(inner.apply(t))
         return new Compose(this, inner);
     }
 
@@ -55,5 +81,10 @@ public abstract class Substitution {
                 return apply(E.get(x));
             }
         };
+    }
+
+    @Override
+    public String toString() {
+        return "fuck?";
     }
 }

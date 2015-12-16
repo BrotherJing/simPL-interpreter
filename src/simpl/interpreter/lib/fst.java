@@ -21,6 +21,7 @@ public class fst extends FunValue {
             @Override
             public TypeResult typecheck(TypeEnv E) throws TypeError {
                 // TODO Auto-generated method stub
+
                 return null;
             }
 
