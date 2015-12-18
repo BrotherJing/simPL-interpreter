@@ -24,11 +24,13 @@ public class Not extends UnaryExpr {
     public TypeResult typecheck(TypeEnv E) throws TypeError {
         // TODO
         TypeResult tr = e.typecheck(E);
-        if(tr.t.equals(Type.BOOL)){
-            return TypeResult.of(Type.BOOL);
-        }
-        throw new TypeError("not bool type found");
-        //return null;
+
+        Type t1 = tr.t;
+        Substitution substitution = tr.s;
+        t1 = substitution.apply(t1);
+
+        substitution = t1.unify(Type.BOOL).compose(substitution);
+        return TypeResult.of(substitution,Type.BOOL);
     }
 
     @Override

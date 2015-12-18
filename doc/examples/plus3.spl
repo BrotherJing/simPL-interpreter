@@ -1,4 +1,4 @@
-let add = fn x => x
+let add = fn x => x + 2
 in  add 2
 end
 (* ==> 2 *)

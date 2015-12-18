@@ -19,6 +19,7 @@ public class DefaultTypeEnv extends TypeEnv {
                         Symbol.symbol("hd"), new ArrowType(new ListType(tv1), tv1)),
                 Symbol.symbol("tl"), new ArrowType(new ListType(tv1), new ListType(tv1))
         );
+        //E = TypeEnv.empty;
     }
 
     @Override

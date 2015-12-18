@@ -1,1 +1,1 @@
-fn f => fn x => f (f x)
+(fn f => fn x => if (f (f x)) then 1 else 0) (fn b => not b) true

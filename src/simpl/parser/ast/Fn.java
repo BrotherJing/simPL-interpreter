@@ -5,12 +5,7 @@ import simpl.interpreter.RuntimeError;
 import simpl.interpreter.State;
 import simpl.interpreter.Value;
 import simpl.parser.Symbol;
-import simpl.typing.ArrowType;
-import simpl.typing.Type;
-import simpl.typing.TypeEnv;
-import simpl.typing.TypeError;
-import simpl.typing.TypeResult;
-import simpl.typing.TypeVar;
+import simpl.typing.*;
 
 public class Fn extends Expr {
 
@@ -31,14 +26,21 @@ public class Fn extends Expr {
         // TODO
         //TypeResult tr2 = e.typecheck(TypeEnv.of(E, x, t))
         //G[x:t]|-e:t2
-        System.out.println("type check in Fn");
-        TypeVar a = new TypeVar(false);//x:a
+        System.out.println("----------type check in Fn");
+        TypeVar a = new TypeVar(false);//x: a
         TypeResult tr2 = e.typecheck(TypeEnv.of(E, x, a));//u==>e:t
-        System.out.println(tr2.t);
-        System.out.println(tr2.s);
-        Type newType = tr2.s.apply(a);
-        System.out.println("end check in Fn");
-        return TypeResult.of(tr2.s,new ArrowType(newType,tr2.t));
+        System.out.println("e:"+tr2.t);
+
+        TypeVar b = new TypeVar(false);//f: a->b
+
+        Substitution substitution = b.unify(tr2.t).compose(tr2.s);//b = t
+        System.out.println(substitution);
+        Type new_a = substitution.apply(a);
+        Type new_b = substitution.apply(b);
+        //substitution.apply(tr2.t);
+
+        System.out.println("----------end check in Fn");
+        return TypeResult.of(substitution,new ArrowType(new_a,new_b));
         //return null;
     }
 

@@ -33,7 +33,8 @@ final class BoolType extends Type {
     @Override
     public Type replace(TypeVar a, Type t) {
         // TODO
-        return null;
+        return this;
+        //return null;
     }
 
     public String toString() {

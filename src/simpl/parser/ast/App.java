@@ -27,30 +27,40 @@ public class App extends BinaryExpr {
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
         // TODO
-        System.out.println("type check in App");
+        System.out.println("----------type check in App");
         TypeResult tr1 = l.typecheck(E);
-        System.out.println(tr1.t);
+        System.out.println("e1:"+tr1.t);
         TypeResult tr2 = r.typecheck(E);
-        System.out.println(tr2.t);
+        System.out.println("e2:"+tr2.t);
 
         Type t1 = tr1.t;
         Type t2 = tr2.t;
-        TypeVar tv = new TypeVar(false);//new type a
-        Substitution substitution = tr1.s.compose(tr2.s).compose(t1.unify(new ArrowType(t2,tv)));//t1=t2->a
+        //TypeVar tv = new TypeVar(false);
+        Substitution substitution = tr2.s.compose(tr1.s);
         System.out.println(substitution);
-        ArrowType newArrowType = (ArrowType)substitution.apply(t1);
+        //System.out.println(substitution.apply(t1));
+        //System.out.println(substitution.apply(t2));
 
-       /* ArrowType at = (ArrowType)(tr1.t);
-        Type t2 = tr2.t;
+        t1 = substitution.apply(t1);
+        t2 = substitution.apply(t2);
 
-        Substitution substitution = tr1.s.compose(tr2.s).compose(at.t1.unify(t2));
-        ArrowType newArrowType = (ArrowType)substitution.apply(at);
-        substitution.apply(t2);*/
+        Type resultType;
 
-        System.out.println("end check in App");
-        return TypeResult.of(substitution,newArrowType.t2);//return a
-        //return TypeResult.of(tr1.s.compose(tr2.s).compose(at.t1.unify(t2)),at.t2);
-        //return null;
+        if(t1 instanceof ArrowType) {
+            substitution = ((ArrowType) t1).t1.unify(t2).compose(substitution);//t1=t2->a
+            t1 = substitution.apply(t1);
+            resultType = ((ArrowType)t1).t2;
+        }else{
+            TypeVar tv = new TypeVar(false);//new type a
+            substitution = t1.unify(new ArrowType(t2,tv)).compose(substitution);
+            resultType = substitution.apply(tv);
+        }
+        System.out.println(substitution);
+
+        //Type returnType = substitution.apply(tv);
+
+        System.out.println("----------end check in App");
+        return TypeResult.of(substitution,resultType);//return a
     }
 
     @Override

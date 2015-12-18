@@ -5,11 +5,7 @@ import simpl.interpreter.IntValue;
 import simpl.interpreter.RuntimeError;
 import simpl.interpreter.State;
 import simpl.interpreter.Value;
-import simpl.typing.Substitution;
-import simpl.typing.Type;
-import simpl.typing.TypeEnv;
-import simpl.typing.TypeError;
-import simpl.typing.TypeResult;
+import simpl.typing.*;
 
 public class Cond extends Expr {
 
@@ -28,15 +24,37 @@ public class Cond extends Expr {
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
         // TODO
-        System.out.println("type check in Cond");
+        System.out.println("----------type check in Cond");
         TypeResult tr1 = e1.typecheck(E);
-        System.out.println(tr1.s);
+        //System.out.println(tr1.s);
         TypeResult tr2 = e2.typecheck(E);
         TypeResult tr3 = e3.typecheck(E);
-        System.out.println("end check in Cond");
-        TypeResult result = TypeResult.of(tr1.s.compose(tr2.s).compose(tr3.s)
-                .compose(tr1.t.unify(Type.BOOL))
-                .compose(tr2.t.unify(tr3.t)),tr3.t);
+        System.out.println("----------end check in Cond");
+
+        TypeVar resultType = new TypeVar(false);
+
+        Type t1 = tr1.t;
+        Type t2 = tr2.t;
+        Type t3 = tr3.t;
+        Substitution substitution = tr3.s.compose(tr2.s).compose(tr1.s);
+
+        t1 = substitution.apply(t1);
+        t2 = substitution.apply(t2);
+        t3 = substitution.apply(t3);
+
+        substitution = t3.unify(resultType)
+                .compose(t2.unify(resultType))
+                .compose(t1.unify(Type.BOOL))
+                .compose(substitution);
+
+        //System.out.println(substitution);
+
+        //substitution.apply(tr1.t);
+        //substitution.apply(tr2.t);
+        //substitution.apply(tr3.t);
+        TypeResult result = TypeResult.of(substitution,substitution.apply(resultType));
+
+        //TypeResult result = TypeResult.of(substitution,returnType);
         return result;
         //return null;
     }
