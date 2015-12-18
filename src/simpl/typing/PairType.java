@@ -23,7 +23,7 @@ public final class PairType extends Type {
         if(t instanceof TypeVar){
             return t.unify(this);
         }if(t instanceof PairType){
-            return t1.unify(((PairType) t).t1).compose(t2.unify(((PairType) t).t2));
+            return t2.unify(((PairType) t).t2).compose(t1.unify(((PairType) t).t1));
         }
         throw new TypeMismatchError();
         //return null;
@@ -32,7 +32,8 @@ public final class PairType extends Type {
     @Override
     public boolean contains(TypeVar tv) {
         // TODO
-        return false;
+        return t1.contains(tv)||t2.contains(tv);
+        //return false;
     }
 
     @Override

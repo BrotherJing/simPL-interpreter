@@ -50,10 +50,12 @@ public class App extends BinaryExpr {
             substitution = ((ArrowType) t1).t1.unify(t2).compose(substitution);//t1=t2->a
             t1 = substitution.apply(t1);
             resultType = ((ArrowType)t1).t2;
-        }else{
+        }else if(t1 instanceof TypeVar){
             TypeVar tv = new TypeVar(false);//new type a
             substitution = t1.unify(new ArrowType(t2,tv)).compose(substitution);
             resultType = substitution.apply(tv);
+        }else{
+            throw new TypeError("no function found");
         }
         System.out.println(substitution);
 

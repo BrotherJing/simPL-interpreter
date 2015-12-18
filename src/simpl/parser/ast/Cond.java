@@ -26,26 +26,37 @@ public class Cond extends Expr {
         // TODO
         System.out.println("----------type check in Cond");
         TypeResult tr1 = e1.typecheck(E);
-        //System.out.println(tr1.s);
+        System.out.println("e1:"+tr1.t);
         TypeResult tr2 = e2.typecheck(E);
+        System.out.println("e2:"+tr2.t);
         TypeResult tr3 = e3.typecheck(E);
-        System.out.println("----------end check in Cond");
+        System.out.println("e3:"+tr3.t);
 
         TypeVar resultType = new TypeVar(false);
 
         Type t1 = tr1.t;
         Type t2 = tr2.t;
         Type t3 = tr3.t;
+
         Substitution substitution = tr3.s.compose(tr2.s).compose(tr1.s);
+
+        System.out.println(substitution);
 
         t1 = substitution.apply(t1);
         t2 = substitution.apply(t2);
         t3 = substitution.apply(t3);
 
-        substitution = t3.unify(resultType)
-                .compose(t2.unify(resultType))
-                .compose(t1.unify(Type.BOOL))
+        substitution = t1.unify(Type.BOOL)
                 .compose(substitution);
+
+        t2 = substitution.apply(t2);
+        t3 = substitution.apply(t3);
+
+        substitution = t2.unify(resultType).compose(substitution);
+
+        t3 = substitution.apply(t3);
+
+        substitution = t3.unify(resultType).compose(substitution);
 
         //System.out.println(substitution);
 
@@ -54,6 +65,7 @@ public class Cond extends Expr {
         //substitution.apply(tr3.t);
         TypeResult result = TypeResult.of(substitution,substitution.apply(resultType));
 
+        System.out.println("----------end check in Cond");
         //TypeResult result = TypeResult.of(substitution,returnType);
         return result;
         //return null;

@@ -2,9 +2,6 @@ package simpl.typing;
 
 import simpl.parser.Symbol;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Substitution {
 
     public abstract Type apply(Type t);

@@ -31,7 +31,8 @@ public final class ArrowType extends Type {
     @Override
     public boolean contains(TypeVar tv) {
         // TODO
-        return false;
+        return t1.contains(tv)||t2.contains(tv);
+        //return false;
     }
 
     @Override

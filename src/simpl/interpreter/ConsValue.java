@@ -11,7 +11,8 @@ public class ConsValue extends Value {
 
     public String toString() {
         // TODO
-        return null;
+        return v1+"::"+v2;
+        //return null;
     }
 
     @Override

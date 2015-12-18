@@ -13,11 +13,17 @@ public class DefaultTypeEnv extends TypeEnv {
         E = TypeEnv.of(
                 TypeEnv.of(
                         TypeEnv.of(
-                                TypeEnv.of(TypeEnv.empty,
-                                        Symbol.symbol("fst"), new ArrowType(new PairType(tv1, tv2), tv1)),
-                                Symbol.symbol("snd"), new ArrowType(new PairType(tv1, tv2), tv2)),
-                        Symbol.symbol("hd"), new ArrowType(new ListType(tv1), tv1)),
-                Symbol.symbol("tl"), new ArrowType(new ListType(tv1), new ListType(tv1))
+                                TypeEnv.of(
+                                        TypeEnv.of(
+                                                TypeEnv.of(
+                                                        TypeEnv.of(TypeEnv.empty,
+                                                                Symbol.symbol("fst"), new ArrowType(new PairType(tv1, tv2), tv1)),
+                                                        Symbol.symbol("snd"), new ArrowType(new PairType(tv1, tv2), tv2)),
+                                                Symbol.symbol("hd"), new ArrowType(new ListType(tv1), tv1)),
+                                        Symbol.symbol("tl"), new ArrowType(new ListType(tv1), new ListType(tv1))),
+                                Symbol.symbol("iszero"), new ArrowType(new IntType(), new BoolType())),
+                        Symbol.symbol("pred"), new ArrowType(new IntType(), new IntType())),
+                Symbol.symbol("succ"), new ArrowType(new IntType(),new IntType())
         );
         //E = TypeEnv.empty;
     }

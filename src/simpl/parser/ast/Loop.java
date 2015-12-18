@@ -26,7 +26,31 @@ public class Loop extends Expr {
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
         // TODO
-        return null;
+        System.out.println("----------type check in Loop");
+        TypeResult tr1 = e1.typecheck(E);
+        System.out.println(tr1.t);
+        TypeResult tr2 = e2.typecheck(E);
+        System.out.println(tr2.t);
+
+        /*Substitution substitution = tr1.s.compose(tr2.s)
+                .compose(tr1.t.unify(Type.INT)).compose(tr2.t.unify(Type.INT));*/
+
+        Type t1 = tr1.t;
+        //Type t2 = tr2.t;
+
+        Substitution substitution = tr2.s.compose(tr1.s);
+
+        t1 = substitution.apply(t1);
+        //t2 = substitution.apply(t2);
+
+        substitution = t1.unify(Type.BOOL)
+                .compose(substitution);
+
+        TypeResult result = TypeResult.of(substitution,Type.UNIT);
+
+        System.out.println("----------end check in Loop");
+        return result;
+        //return null;
     }
 
     @Override

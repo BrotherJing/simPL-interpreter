@@ -23,7 +23,8 @@ public class Interpreter {
             System.out.println("syntax error");
         }
         catch (TypeError e) {
-            System.out.println("type error");
+            //System.out.println("type error");
+            System.out.println(e.getMessage());
         }
         catch (RuntimeError e) {
             System.out.println("runtime error");

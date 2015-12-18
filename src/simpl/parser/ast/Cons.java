@@ -4,11 +4,7 @@ import simpl.interpreter.ConsValue;
 import simpl.interpreter.RuntimeError;
 import simpl.interpreter.State;
 import simpl.interpreter.Value;
-import simpl.typing.ListType;
-import simpl.typing.Substitution;
-import simpl.typing.TypeEnv;
-import simpl.typing.TypeError;
-import simpl.typing.TypeResult;
+import simpl.typing.*;
 
 public class Cons extends BinaryExpr {
 
@@ -23,7 +19,30 @@ public class Cons extends BinaryExpr {
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
         // TODO
-        return null;
+        System.out.println("----------type check in Cons");
+        TypeResult tr1 = l.typecheck(E);
+        TypeResult tr2 = r.typecheck(E);
+
+        System.out.println(tr2.t);
+
+        /*if(!(tr2.t instanceof ListType)){
+            throw new TypeError("not list type");
+        }*/
+        Type t1 = tr1.t;
+        Type t2 = tr2.t;
+
+        Substitution substitution = tr2.s.compose(tr1.s);
+
+        t1 = substitution.apply(t1);
+        t2 = substitution.apply(t2);
+
+        substitution = t2.unify(new ListType(t1)).compose(substitution);
+
+        System.out.println("----------end check in Cons");
+
+        return TypeResult.of(substitution,substitution.apply(t2));
+
+        //return null;
     }
 
     @Override
