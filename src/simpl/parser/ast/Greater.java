@@ -18,10 +18,12 @@ public class Greater extends RelExpr {
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
         // only IntValue is allowed
-        IntValue v1 = (IntValue)l.eval(s);
-        IntValue v2 = (IntValue)r.eval(s);
-        return new BoolValue(v1.n>v2.n);
+        Value v1 = l.eval(s);
+        Value v2 = r.eval(s);
+        if(!(v1 instanceof IntValue&&v2 instanceof IntValue)){
+            throw new RuntimeError("must be 2 int values");
+        }
+        return new BoolValue(((IntValue)v1).n>((IntValue)v2).n);
     }
 }

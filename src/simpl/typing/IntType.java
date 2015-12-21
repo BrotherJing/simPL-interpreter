@@ -7,13 +7,11 @@ final class IntType extends Type {
 
     @Override
     public boolean isEqualityType() {
-        // TODO
-        return false;
+        return true;
     }
 
     @Override
     public Substitution unify(Type t) throws TypeError {
-        // TODO
         if(t instanceof TypeVar){
             return t.unify(this);
         }
@@ -21,20 +19,16 @@ final class IntType extends Type {
             return Substitution.IDENTITY;
         }
         throw new TypeMismatchError();
-        //return null;
     }
 
     @Override
     public boolean contains(TypeVar tv) {
-        // TODO
         return false;
     }
 
     @Override
     public Type replace(TypeVar a, Type t) {
-        // TODO
         return this;
-        //return null;
     }
 
     public String toString() {

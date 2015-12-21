@@ -1,5 +1,6 @@
 package simpl.parser.ast;
 
+import simpl.Logger;
 import simpl.typing.Substitution;
 import simpl.typing.Type;
 import simpl.typing.TypeEnv;
@@ -14,15 +15,11 @@ public abstract class RelExpr extends BinaryExpr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
-        System.out.println("----------type check in RelExpr");
+        Logger.i("----------type check in RelExpr");
         TypeResult tr1 = l.typecheck(E);
-        System.out.println(tr1.t);
+        Logger.i(tr1.t);
         TypeResult tr2 = r.typecheck(E);
-        System.out.println(tr2.t);
-
-        /*Substitution substitution = tr1.s.compose(tr2.s)
-                .compose(tr1.t.unify(Type.INT)).compose(tr2.t.unify(Type.INT));*/
+        Logger.i(tr2.t);
 
         Type t1 = tr1.t;
         Type t2 = tr2.t;
@@ -38,8 +35,7 @@ public abstract class RelExpr extends BinaryExpr {
 
         TypeResult result = TypeResult.of(substitution,Type.BOOL);
 
-        System.out.println("----------end check in RelExpr");
+        Logger.i("----------end check in RelExpr");
         return result;
-        //return null;
     }
 }

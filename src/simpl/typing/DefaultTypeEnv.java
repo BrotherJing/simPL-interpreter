@@ -7,7 +7,6 @@ public class DefaultTypeEnv extends TypeEnv {
     private TypeEnv E;
 
     public DefaultTypeEnv() {
-        // TODO
         TypeVar tv1 = new TypeVar(false);
         TypeVar tv2 = new TypeVar(false);
         E = TypeEnv.of(
@@ -25,7 +24,6 @@ public class DefaultTypeEnv extends TypeEnv {
                         Symbol.symbol("pred"), new ArrowType(new IntType(), new IntType())),
                 Symbol.symbol("succ"), new ArrowType(new IntType(),new IntType())
         );
-        //E = TypeEnv.empty;
     }
 
     @Override

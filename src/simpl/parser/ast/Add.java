@@ -17,13 +17,13 @@ public class Add extends ArithExpr {
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
         // according to E-ADD
         // assume that l and r both evaluate to IntValue, then return the sum of the two IntValues
         Value v1 = l.eval(s);
         Value v2 = r.eval(s);
+        if(!(v1 instanceof IntValue&&v2 instanceof IntValue)){
+            throw new RuntimeError("must be 2 int values");
+        }
         return new IntValue(((IntValue)v1).n+((IntValue)v2).n);
-        //return new IntValue(((IntValue)l.eval(s)).n+((IntValue)r.eval(s)).n);
-        //return null;
     }
 }

@@ -1,5 +1,6 @@
 package simpl.parser.ast;
 
+import simpl.Logger;
 import simpl.interpreter.BoolValue;
 import simpl.interpreter.RuntimeError;
 import simpl.interpreter.State;
@@ -22,14 +23,8 @@ public class OrElse extends BinaryExpr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODOSystem.out.println("----------type check in RelExpr");
         TypeResult tr1 = l.typecheck(E);
-        System.out.println(tr1.t);
         TypeResult tr2 = r.typecheck(E);
-        System.out.println(tr2.t);
-
-        /*Substitution substitution = tr1.s.compose(tr2.s)
-                .compose(tr1.t.unify(Type.INT)).compose(tr2.t.unify(Type.INT));*/
 
         Type t1 = tr1.t;
         Type t2 = tr2.t;
@@ -43,22 +38,19 @@ public class OrElse extends BinaryExpr {
                 .compose(t1.unify(Type.BOOL))
                 .compose(substitution);
 
-        TypeResult result = TypeResult.of(substitution,Type.BOOL);
-
-        System.out.println("----------end check in RelExpr");
-        return result;
+        return TypeResult.of(substitution,Type.BOOL);
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
         // if the first expr is true, do not eval the second expr!
-        BoolValue lb = (BoolValue)(l.eval(s));
-        if(lb.b){
+        Value lb = l.eval(s);
+        if(!(lb instanceof BoolValue))throw new RuntimeError("not a bool value");
+        if(((BoolValue)lb).b){
             return new BoolValue(true);
         }
-        BoolValue rb = (BoolValue)(r.eval(s));
-        return new BoolValue(rb.b);
-        //return null;
+        Value rb = r.eval(s);
+        if(!(rb instanceof BoolValue))throw new RuntimeError("not a bool value");
+        return new BoolValue(((BoolValue)rb).b);
     }
 }

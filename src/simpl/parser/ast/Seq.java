@@ -1,5 +1,6 @@
 package simpl.parser.ast;
 
+import simpl.Logger;
 import simpl.interpreter.RuntimeError;
 import simpl.interpreter.State;
 import simpl.interpreter.Value;
@@ -17,9 +18,7 @@ public class Seq extends BinaryExpr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
-
-        System.out.println("----------type check in Seq");
+        Logger.i("----------type check in Seq");
         TypeResult tr1 = l.typecheck(E);
         TypeResult tr2 = r.typecheck(E);
 
@@ -29,17 +28,13 @@ public class Seq extends BinaryExpr {
 
         t2 = substitution.apply(t2);
 
-        System.out.println("----------end check in Seq");
+        Logger.i("----------end check in Seq");
         return TypeResult.of(substitution, t2);
-        //return null;
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
-        Value v1 = l.eval(s);
-        Value v2 = r.eval(s);
-        return v2;
-        //return null;
+        l.eval(s);
+        return r.eval(s);
     }
 }

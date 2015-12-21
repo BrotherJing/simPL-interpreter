@@ -17,7 +17,6 @@ public class InitialState extends State {
     }
 
     private static Env initialEnv(Env E) {
-        // TODO
         return 
             new Env(
             new Env(
@@ -33,7 +32,5 @@ public class InitialState extends State {
             Symbol.symbol("pred"),new pred()),
             Symbol.symbol("succ"),new succ())
             ;
-        //return E.clone();
-        //return null;
     }
 }

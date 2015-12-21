@@ -3,6 +3,7 @@ package simpl.interpreter;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import simpl.Logger;
 import simpl.parser.Parser;
 import simpl.parser.SyntaxError;
 import simpl.parser.ast.Expr;
@@ -16,6 +17,7 @@ public class Interpreter {
             Parser parser = new Parser(inp);
             java_cup.runtime.Symbol parseTree = parser.parse();
             Expr program = (Expr) parseTree.value;
+            Logger.off();
             System.out.println(program.typecheck(new DefaultTypeEnv()).t);
             System.out.println(program.eval(new InitialState()));
         }
@@ -27,7 +29,8 @@ public class Interpreter {
             System.out.println(e.getMessage());
         }
         catch (RuntimeError e) {
-            System.out.println("runtime error");
+            System.out.println(e.getMessage());
+            //System.out.println("runtime error");
         }
         catch (Exception e) {
             e.printStackTrace(System.err);
@@ -42,7 +45,7 @@ public class Interpreter {
 
     public static void main(String[] args) {
         interpret("doc/examples/test.spl");
-        /*interpret("doc/examples/plus3.spl");
+        interpret("doc/examples/plus3.spl");
         interpret("doc/examples/max.spl");
         interpret("doc/examples/factorial.spl");
         interpret("doc/examples/gcd1.spl");
@@ -55,6 +58,6 @@ public class Interpreter {
         interpret("doc/examples/pcf.fibonacci.spl");
         interpret("doc/examples/pcf.factorial.spl");
         interpret("doc/examples/pcf.twice.spl");
-        interpret("doc/examples/pcf.lists.spl");*/
+        interpret("doc/examples/pcf.lists.spl");
     }
 }

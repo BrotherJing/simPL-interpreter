@@ -1,5 +1,6 @@
 package simpl.parser.ast;
 
+import simpl.Logger;
 import simpl.interpreter.RefValue;
 import simpl.interpreter.RuntimeError;
 import simpl.interpreter.State;
@@ -18,13 +19,11 @@ public class Assign extends BinaryExpr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
-
-        System.out.println("----------type check in Assign");
+        Logger.i("----------type check in Assign");
         TypeResult tr1 = l.typecheck(E);
-        System.out.println("e1:"+tr1.t);
+        Logger.i("e1:" + tr1.t);
         TypeResult tr2 = r.typecheck(E);
-        System.out.println("e2:"+tr2.t);
+        Logger.i("e2:" + tr2.t);
 
         Type t1 = tr1.t;
         Type t2 = tr2.t;
@@ -44,18 +43,17 @@ public class Assign extends BinaryExpr {
 
         TypeResult result = TypeResult.of(substitution,Type.UNIT);
 
-        System.out.println("----------end check in Assign");
+        Logger.i("----------end check in Assign");
 
         return result;
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
-        RefValue v1 = (RefValue)(l.eval(s));
+        Value v1 = l.eval(s);
+        if(!(v1 instanceof RefValue))throw new RuntimeError("not a reference");
         Value v2 = r.eval(s);
-        s.M.put(v1.p, v2);
+        s.M.put(((RefValue)v1).p, v2);
         return Value.UNIT;
-        //return null;
     }
 }

@@ -19,7 +19,7 @@ public class TypeVar extends Type {
         id = tvcnt;
         name = Symbol.symbol("tv" + ++tvcnt);
 
-        System.out.println("new TypeVar "+(char)('a'+id));
+        //System.out.println("new TypeVar "+(char)('a'+id));
     }
 
     @Override
@@ -29,31 +29,25 @@ public class TypeVar extends Type {
 
     @Override
     public Substitution unify(Type t) throws TypeCircularityError {
-        // TODO
         if(t.contains(this)){
             throw new TypeCircularityError();
         }
         return Substitution.of(this,t);
-        //return null;
     }
 
     public String toString() {
-        return (char)('a'+id)+"";
+        //return (char)('a'+id)+"";
+        return name.toString();
     }
 
     @Override
     public boolean contains(TypeVar tv) {
-        // TODO
         return name.equals(tv.name);
-        //return false;
     }
 
     @Override
     public Type replace(TypeVar a, Type t) {
-        // TODO
-        //System.out.println("replace "+a+" with "+t+" on "+this+"?");
-        if(name.equals(a.name))return t;
+        if(name.equals(a.name)) return t;
         else return this;
-        //return null;
     }
 }

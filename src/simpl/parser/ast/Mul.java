@@ -17,10 +17,12 @@ public class Mul extends ArithExpr {
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
         // according to E-MUL
         Value v1 = l.eval(s);
         Value v2 = r.eval(s);
+        if(!(v1 instanceof IntValue&&v2 instanceof IntValue)){
+            throw new RuntimeError("must be 2 int values");
+        }
         return new IntValue(((IntValue)v1).n*((IntValue)v2).n);
     }
 }

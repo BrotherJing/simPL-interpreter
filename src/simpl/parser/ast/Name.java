@@ -24,20 +24,19 @@ public class Name extends Expr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
         Type t = E.get(x);
         return TypeResult.of(t);
-        //return null;
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
         Value v = s.E.get(x);
+        if(v==null){
+            throw new RuntimeError("symbol not defined");
+        }
         if(v instanceof RecValue){
             return new Rec(x,((RecValue)v).e).eval(State.of(((RecValue)v).E, s.M, s.p));
         }
         return v;
-        //return null;
     }
 }

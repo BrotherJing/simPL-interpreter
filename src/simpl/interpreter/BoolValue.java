@@ -14,7 +14,9 @@ public class BoolValue extends Value {
 
     @Override
     public boolean equals(Object other) {
-        // TODO
-        return false;
+        if(other instanceof BoolValue){
+            return b == ((BoolValue) other).b;
+        }
+        return true;
     }
 }

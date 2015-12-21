@@ -1,5 +1,6 @@
 package simpl.parser.ast;
 
+import simpl.Logger;
 import simpl.interpreter.FunValue;
 import simpl.interpreter.RuntimeError;
 import simpl.interpreter.State;
@@ -23,32 +24,26 @@ public class Fn extends Expr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
-        //TypeResult tr2 = e.typecheck(TypeEnv.of(E, x, t))
         //G[x:t]|-e:t2
-        System.out.println("----------type check in Fn");
-        TypeVar a = new TypeVar(false);//x: a
+        Logger.i("----------type check in Fn");
+        Type a = new TypeVar(false);//x: a
         TypeResult tr2 = e.typecheck(TypeEnv.of(E, x, a));//u==>e:t
-        System.out.println("e:"+tr2.t);
+        Logger.i("e:"+tr2.t);
 
-        TypeVar b = new TypeVar(false);//f: a->b
+        Type b = new TypeVar(false);//f: a->b
 
         Substitution substitution = b.unify(tr2.t).compose(tr2.s);//b = t
-        System.out.println(substitution);
-        Type new_a = substitution.apply(a);
-        Type new_b = substitution.apply(b);
-        //substitution.apply(tr2.t);
 
-        System.out.println("----------end check in Fn");
-        return TypeResult.of(substitution,new ArrowType(new_a,new_b));
-        //return null;
+        a = substitution.apply(a);
+        b = substitution.apply(b);
+
+        Logger.i("----------end check in Fn");
+        return TypeResult.of(substitution,new ArrowType(a,b));
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
         // according to E-Fn, we just need to return a FunValue with the original Env
         return new FunValue(s.E,x,e);
-        //return null;
     }
 }

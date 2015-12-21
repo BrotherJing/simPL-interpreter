@@ -1,5 +1,6 @@
 package simpl.parser.ast;
 
+import simpl.Logger;
 import simpl.interpreter.ConsValue;
 import simpl.interpreter.RuntimeError;
 import simpl.interpreter.State;
@@ -18,16 +19,10 @@ public class Cons extends BinaryExpr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
-        System.out.println("----------type check in Cons");
+        Logger.i("----------type check in Cons");
         TypeResult tr1 = l.typecheck(E);
         TypeResult tr2 = r.typecheck(E);
 
-        System.out.println(tr2.t);
-
-        /*if(!(tr2.t instanceof ListType)){
-            throw new TypeError("not list type");
-        }*/
         Type t1 = tr1.t;
         Type t2 = tr2.t;
 
@@ -38,19 +33,15 @@ public class Cons extends BinaryExpr {
 
         substitution = t2.unify(new ListType(t1)).compose(substitution);
 
-        System.out.println("----------end check in Cons");
+        Logger.i("----------end check in Cons");
 
         return TypeResult.of(substitution,substitution.apply(t2));
-
-        //return null;
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
         Value v1 = l.eval(s);
         Value v2 = r.eval(s);
         return new ConsValue(v1,v2);
-        //return null;
     }
 }

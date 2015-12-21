@@ -22,7 +22,6 @@ public class Not extends UnaryExpr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
         TypeResult tr = e.typecheck(E);
 
         Type t1 = tr.t;
@@ -35,9 +34,8 @@ public class Not extends UnaryExpr {
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
-        BoolValue b = (BoolValue)(e.eval(s));
-        return new BoolValue(!(b.b));
-        //return null;
+        Value b = e.eval(s);
+        if(!(b instanceof BoolValue))throw new RuntimeError("not a bool value");
+        return new BoolValue(!(((BoolValue)b).b));
     }
 }

@@ -1,5 +1,6 @@
 package simpl.parser.ast;
 
+import simpl.Logger;
 import simpl.interpreter.Env;
 import simpl.interpreter.RuntimeError;
 import simpl.interpreter.State;
@@ -26,24 +27,19 @@ public class Let extends Expr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
-        System.out.println("----------type check in Let");
+        Logger.i("----------type check in Let");
         TypeResult tr1 = e1.typecheck(E);
-        System.out.println(tr1.t);
+        Logger.i(tr1.t);
         TypeResult tr2 = e2.typecheck(TypeEnv.of(E, x, tr1.t));
-        System.out.println(tr2.t);
-        System.out.println("----------end check in Let");
+        Logger.i(tr2.t);
+        Logger.i("----------end check in Let");
         return TypeResult.of(tr2.s.compose(tr1.s),tr2.t);
-        //return null;
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
         // according to E-LET
         Value v1 = e1.eval(s);
-        Value v2 = e2.eval(State.of(new Env(s.E,x,v1),s.M,s.p));
-        return v2;
-        //return null;
+        return e2.eval(State.of(new Env(s.E,x,v1),s.M,s.p));
     }
 }

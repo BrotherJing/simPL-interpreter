@@ -22,16 +22,22 @@ public class Neg extends UnaryExpr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
-        return null;
+        TypeResult tr = e.typecheck(E);
+
+        Type t1 = tr.t;
+        Substitution substitution = tr.s;
+        t1 = substitution.apply(t1);
+
+        substitution = t1.unify(Type.INT).compose(substitution);
+        return TypeResult.of(substitution,Type.INT);
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
-        // according to E-ADD
-        // assume that l and r both evaluate to IntValue, then return the sum of the two IntValues
         Value v = e.eval(s);
+        if(!(v instanceof IntValue)){
+            throw new RuntimeError("must be 2 int values");
+        }
         return new IntValue(-((IntValue)v).n);
     }
 }

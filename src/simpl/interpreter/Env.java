@@ -35,20 +35,16 @@ public class Env {
     }
 
     public Value get(Symbol y) {
-        // TODO
         // if y==x, return v, else find the value in E
         if(y.toString().equals(x.toString())){
             return v;
         }
         return E.get(y);
-        //return null;
     }
 
     public Env clone() {
-        // TODO
         // clone a new Env same as this
         return new Env(E,x,v);
-        //return null;
     }
     
     public String toString(){

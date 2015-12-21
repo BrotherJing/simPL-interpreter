@@ -1,5 +1,6 @@
 package simpl.parser.ast;
 
+import simpl.Logger;
 import simpl.interpreter.Int;
 import simpl.interpreter.RefValue;
 import simpl.interpreter.RuntimeError;
@@ -19,10 +20,9 @@ public class Ref extends UnaryExpr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
-        System.out.println("----------type check in Ref");
+        Logger.i("----------type check in Ref");
         TypeResult tr = e.typecheck(E);
-        System.out.println("e:"+tr.t);
+        Logger.i("e:" + tr.t);
 
         Type t = tr.t;
         Substitution substitution = tr.s;
@@ -31,19 +31,16 @@ public class Ref extends UnaryExpr {
 
         TypeResult result = TypeResult.of(substitution,new RefType(t));
 
-        System.out.println("----------end check in Ref");
+        Logger.i("----------end check in Ref");
         return result;
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
         int oldPointer = s.p.get();
-        Value v = e.eval(State.of(s.E, s.M, new Int(s.p.get()+1)));
-        s.M.put(oldPointer, v);
         s.p.set(oldPointer+1);
-        //System.out.println("put new "+oldPointer+" "+v.toString());
+        Value v = e.eval(s);
+        s.M.put(oldPointer, v);
         return new RefValue(oldPointer);
-        //return null;
     }
 }

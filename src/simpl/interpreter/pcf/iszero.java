@@ -16,24 +16,19 @@ import simpl.typing.TypeResult;
 public class iszero extends FunValue {
 
     public iszero() {
-        // TODO
         super(Env.empty,Symbol.symbol("x"),new Expr(){
 
             @Override
             public TypeResult typecheck(TypeEnv E) throws TypeError {
-                // TODO Auto-generated method stub
                 return null;
             }
 
             @Override
             public Value eval(State s) throws RuntimeError {
-                // TODO Auto-generated method stub
                 IntValue iv = (IntValue)(s.E.get(Symbol.symbol("x")));
                 return new BoolValue(iv.n==0);
-                //return null;
             }
             
         });
-        //super(null, null, null);
     }
 }

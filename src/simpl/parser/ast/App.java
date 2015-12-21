@@ -1,5 +1,6 @@
 package simpl.parser.ast;
 
+import simpl.Logger;
 import simpl.interpreter.Env;
 import simpl.interpreter.FunValue;
 import simpl.interpreter.RuntimeError;
@@ -26,20 +27,16 @@ public class App extends BinaryExpr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
-        System.out.println("----------type check in App");
+        Logger.i("----------type check in App");
         TypeResult tr1 = l.typecheck(E);
-        System.out.println("e1:"+tr1.t);
+        Logger.i("e1:" + tr1.t);
         TypeResult tr2 = r.typecheck(E);
-        System.out.println("e2:"+tr2.t);
+        Logger.i("e2:" + tr2.t);
 
         Type t1 = tr1.t;
         Type t2 = tr2.t;
-        //TypeVar tv = new TypeVar(false);
+
         Substitution substitution = tr2.s.compose(tr1.s);
-        System.out.println(substitution);
-        //System.out.println(substitution.apply(t1));
-        //System.out.println(substitution.apply(t2));
 
         t1 = substitution.apply(t1);
         t2 = substitution.apply(t2);
@@ -57,29 +54,24 @@ public class App extends BinaryExpr {
         }else{
             throw new TypeError("no function found");
         }
-        System.out.println(substitution);
 
-        //Type returnType = substitution.apply(tv);
-
-        System.out.println("----------end check in App");
+        Logger.i("----------end check in App");
         return TypeResult.of(substitution,resultType);//return a
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
         // according to the rule E-App,
         // first evaluate the function,
         // then evaluate the parameter, using the original state.
         // then evaluate the expression in fun, using a new Env.
 
         Value v = l.eval(s);
+        if(!(v instanceof FunValue))throw new RuntimeError("not a function");
         FunValue fun = (FunValue)v;
 
         Value param = r.eval(s);
         State newState = State.of(new Env(fun.E,fun.x,param),s.M,s.p);
-        Value result = fun.e.eval(newState);
-        return result;
-        //return null;
+        return fun.e.eval(newState);
     }
 }

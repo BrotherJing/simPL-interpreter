@@ -1,5 +1,6 @@
 package simpl.parser.ast;
 
+import simpl.Logger;
 import simpl.interpreter.RefValue;
 import simpl.interpreter.RuntimeError;
 import simpl.interpreter.State;
@@ -24,10 +25,9 @@ public class Deref extends UnaryExpr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
-        System.out.println("----------type check in Deref");
+        Logger.i("----------type check in Deref");
         TypeResult tr = e.typecheck(E);
-        System.out.println("e:"+tr.t);
+        Logger.i("e:" + tr.t);
 
         Type t = tr.t;
         Substitution substitution = tr.s;
@@ -47,16 +47,15 @@ public class Deref extends UnaryExpr {
             throw new TypeError("no ref type found");
         }
 
-        System.out.println("----------end check in Deref");
+        Logger.i("----------end check in Deref");
 
         return result;
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
-        RefValue v = (RefValue)(e.eval(s));
-        return s.M.get(v.p);
-        //return null;
+        Value v = e.eval(s);
+        if(!(v instanceof RefValue))throw new RuntimeError("not a reference");
+        return s.M.get(((RefValue)v).p);
     }
 }

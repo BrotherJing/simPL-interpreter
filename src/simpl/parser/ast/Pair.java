@@ -18,7 +18,6 @@ public class Pair extends BinaryExpr {
 
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
-        // TODO
         TypeResult tr1 = l.typecheck(E);
         TypeResult tr2 = r.typecheck(E);
 
@@ -28,15 +27,12 @@ public class Pair extends BinaryExpr {
         Type t2 = substitution.apply(tr2.t);
 
         return TypeResult.of(substitution,new PairType(t1,t2));
-        //return null;
     }
 
     @Override
     public Value eval(State s) throws RuntimeError {
-        // TODO
         Value v1 = l.eval(s);
         Value v2 = r.eval(s);
         return new PairValue(v1,v2);
-        //return null;
     }
 }
