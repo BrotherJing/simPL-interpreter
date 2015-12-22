@@ -24,7 +24,11 @@ public class hd extends FunValue {
 
             @Override
             public Value eval(State s) throws RuntimeError {
-                ConsValue cv = (ConsValue)(s.E.get(Symbol.symbol("x")));
+                Value v = s.E.get(Symbol.symbol("x"));
+                if(v==Value.NIL){
+                    throw new RuntimeError("apply hd on nil!");
+                }
+                ConsValue cv = (ConsValue)v;
                 return cv.v1;
             }
             

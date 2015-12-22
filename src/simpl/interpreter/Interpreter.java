@@ -22,7 +22,8 @@ public class Interpreter {
             System.out.println(program.eval(new InitialState()));
         }
         catch (SyntaxError e) {
-            System.out.println("syntax error");
+            //System.out.println("syntax error");
+            System.out.println(e.getMessage());
         }
         catch (TypeError e) {
             //System.out.println("type error");
@@ -44,8 +45,12 @@ public class Interpreter {
     }
 
     public static void main(String[] args) {
-        interpret("doc/examples/test.spl");
-        interpret("doc/examples/plus3.spl");
+        if(args.length<1){
+            System.out.println("usage: java -jar SimPL.jar program.spl");
+            return;
+        }
+        interpret(args[0]);
+        /*interpret("doc/examples/plus3.spl");
         interpret("doc/examples/max.spl");
         interpret("doc/examples/factorial.spl");
         interpret("doc/examples/gcd1.spl");
@@ -58,6 +63,6 @@ public class Interpreter {
         interpret("doc/examples/pcf.fibonacci.spl");
         interpret("doc/examples/pcf.factorial.spl");
         interpret("doc/examples/pcf.twice.spl");
-        interpret("doc/examples/pcf.lists.spl");
+        interpret("doc/examples/pcf.lists.spl");*/
     }
 }

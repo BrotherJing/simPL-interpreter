@@ -9,4 +9,21 @@
 in mp (fn p => ((fst p)+1,(snd p)+1)) ((1,2)::(3,4)::nil)
 end*)
 
-(fn x => x=(1::2::3::nil)) (1::2::3::nil)
+(*(fn x => x=(1::2::3::nil)) (1::2::3::nil)*)
+
+(*let evod = rec eo =>
+	fn n => if n=0 then (fn x => (x=0) orelse (eo 1 (x-1)))
+			else (fn x => (x<>0) andalso (eo 0 (x-1)))
+in
+	let even = evod 0 in
+		let odd = evod 1 in
+			even 6
+		end
+	end
+end*)
+
+let y = fn f => (fn x=>(x x)) (fn x=> f (fn z=>((x x) z))) in
+	let ff = fn f => fn n => if(n=0) then 1 else n*(f (n-1)) in
+		y ff 6
+	end
+end

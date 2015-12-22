@@ -6,3 +6,4 @@ bin/
 *.synctex.gz
 .settings/
 .idea/
+out/

@@ -25,6 +25,7 @@ public class Name extends Expr {
     @Override
     public TypeResult typecheck(TypeEnv E) throws TypeError {
         Type t = E.get(x);
+        if(t==null)throw new TypeError("symbol not defined");
         return TypeResult.of(t);
     }
 
